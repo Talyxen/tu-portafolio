@@ -46,3 +46,11 @@ export const LOGO_CONFIG = {
   scale: 1.05,
   lerp: 0.12,
 };
+
+export const LOGO_TEXT_CONFIG = {
+  enabled: true,
+  jumpHeight: -10,
+  scale: 1.15,
+  staggerDelay: 70,
+  duration: 450,
+};

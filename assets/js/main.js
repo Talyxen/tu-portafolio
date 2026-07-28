@@ -11,6 +11,7 @@ import { initFloatingParticles, destroyFloatingParticles } from './components/fl
 import { NavigationManager } from './components/navigation.js';
 import { ScrollRevealObserver } from './components/scrollReveal.js';
 import { LogoInteraction } from './components/logoInteraction.js';
+import { LogoTextInteraction } from './components/logoTextInteraction.js';
 
 class PortfolioApp {
   constructor() {
@@ -20,6 +21,7 @@ class PortfolioApp {
       navigation: null,
       scrollReveal: null,
       logoInteraction: null,
+      logoTextInteraction: null,
     };
     this.particlesContainer = null;
     this.isInitialized = false;
@@ -32,9 +34,12 @@ class PortfolioApp {
     this.components.navigation = new NavigationManager();
     this.components.navigation.init();
 
-    // 2. Inicializar Interacción 3D del Logo
+    // 2. Inicializar Interacción 3D de la Imagen y Salto en Cascada del Texto del Logo
     this.components.logoInteraction = new LogoInteraction();
     this.components.logoInteraction.init();
+
+    this.components.logoTextInteraction = new LogoTextInteraction();
+    this.components.logoTextInteraction.init();
 
     // 3. Inicializar Revelado al Scroll
     this.components.scrollReveal = new ScrollRevealObserver();

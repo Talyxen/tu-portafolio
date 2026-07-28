@@ -167,13 +167,25 @@ header {
 }
 
 .logo-text {
-    display: inline-block;
-    will-change: transform;
-    backface-visibility: hidden;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
 }
 
-.logo span {
+.char {
+    display: inline-block;
+    will-change: transform;
+    text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+}
+
+.js-char {
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+}
+
+.vr-char {
     color: var(--secondary);
+    text-shadow: 0 0 10px rgba(255, 0, 200, 0.5);
 }
 
 nav ul {

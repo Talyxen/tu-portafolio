@@ -32,7 +32,6 @@ export class LogoInteraction {
     logoNodes.forEach((el) => {
       const wrapper = el.querySelector('.logo-img-wrapper');
       const glow = el.querySelector('.logo-glow');
-      const text = el.querySelector('.logo-text');
 
       // Si la estructura no está presente, omitir
       if (!wrapper) return;
@@ -41,7 +40,6 @@ export class LogoInteraction {
         el,
         wrapper,
         glow,
-        text,
         isHovered: false,
         rafId: null,
         current: {
@@ -73,12 +71,12 @@ export class LogoInteraction {
         return;
       }
 
-      // Configurar event listeners circunscritos estrictamente a .logo
-      el.addEventListener('mouseenter', (e) => this.onEnter(tracker, e), { signal });
-      el.addEventListener('mousemove', (e) => this.onMove(tracker, e), { signal });
-      el.addEventListener('mouseleave', () => this.onLeave(tracker), { signal });
-      el.addEventListener('focus', () => this.onEnter(tracker), { signal });
-      el.addEventListener('blur', () => this.onLeave(tracker), { signal });
+      // Configurar event listeners circunscritos estrictamente al contenedor circular (.logo-img-wrapper)
+      wrapper.addEventListener('mouseenter', (e) => this.onEnter(tracker, e), { signal });
+      wrapper.addEventListener('mousemove', (e) => this.onMove(tracker, e), { signal });
+      wrapper.addEventListener('mouseleave', () => this.onLeave(tracker), { signal });
+      wrapper.addEventListener('focus', () => this.onEnter(tracker), { signal });
+      wrapper.addEventListener('blur', () => this.onLeave(tracker), { signal });
     });
   }
 
@@ -121,7 +119,7 @@ export class LogoInteraction {
   }
 
   updateTargetsFromEvent(tracker, e) {
-    const rect = tracker.el.getBoundingClientRect();
+    const rect = tracker.wrapper.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -190,16 +188,11 @@ export class LogoInteraction {
   }
 
   applyTransforms(tracker) {
-    const { wrapper, glow, text, current } = tracker;
+    const { wrapper, glow, current } = tracker;
 
     // Transformación 3D del icono con aceleración por GPU
     if (wrapper) {
       wrapper.style.transform = `translate3d(${current.x}px, ${current.y}px, 0) rotateX(${current.rotX}deg) rotateY(${current.rotY}deg) scale(${current.scale})`;
-    }
-
-    // Parallax suave en el texto para dar sensación de capas independientes
-    if (text) {
-      text.style.transform = `translate3d(${current.x * 0.4}px, ${current.y * 0.4}px, 0)`;
     }
 
     // Variables CSS para iluminación dinámica
@@ -222,7 +215,6 @@ export class LogoInteraction {
         tracker.rafId = null;
       }
       if (tracker.wrapper) tracker.wrapper.style.transform = '';
-      if (tracker.text) tracker.text.style.transform = '';
       if (tracker.glow) {
         tracker.glow.style.removeProperty('--glow-x');
         tracker.glow.style.removeProperty('--glow-y');
