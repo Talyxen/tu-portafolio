@@ -81,9 +81,17 @@ canvas {
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 247, 255, 0.7); }
-    70% { box-shadow: 0 0 0 20px rgba(0, 247, 255, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 247, 255, 0); }
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 247, 255, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgba(0, 247, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 247, 255, 0);
+    }
 }
 
 /* Header y navegación */
@@ -237,7 +245,7 @@ nav a.active::after {
     position: relative;
     overflow: hidden;
     background: radial-gradient(circle at 10% 20%, rgba(10, 10, 30, 0.8) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 40%);
 }
 
 .hero-content {
@@ -458,7 +466,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #151515;
+    background: #141414;
 }
 
 .profile-img img {
@@ -471,9 +479,17 @@ section {
 }
 
 @keyframes border-pulse {
-    0% { box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 247, 255, 0.3); }
-    50% { box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0, 247, 255, 0.5); }
-    100% { box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 247, 255, 0.3); }
+    0% {
+        box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 247, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0, 247, 255, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(0, 247, 255, 0.3);
+    }
 }
 
 .floating {
@@ -481,9 +497,17 @@ section {
 }
 
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 /* Sección Proyectos */
@@ -551,8 +575,13 @@ section {
 }
 
 @keyframes shine {
-    0% { transform: translateX(-150%) rotate(25deg); }
-    100% { transform: translateX(150%) rotate(25deg); }
+    0% {
+        transform: translateX(-150%) rotate(25deg);
+    }
+
+    100% {
+        transform: translateX(150%) rotate(25deg);
+    }
 }
 
 .project-content {
@@ -915,14 +944,14 @@ footer {
     .timeline::before {
         left: 30px;
     }
-    
+
     .timeline-item {
         width: 100%;
         padding-left: 70px;
         padding-right: 25px;
         left: 0 !important;
     }
-    
+
     .timeline-item:nth-child(even) .timeline-content::before,
     .timeline-item:nth-child(odd) .timeline-content::before {
         left: 20px;
@@ -933,11 +962,11 @@ footer {
     .hero h1 {
         font-size: 3.5rem;
     }
-    
+
     .about-content {
         grid-template-columns: 1fr;
     }
-    
+
     .section-title {
         font-size: 2.5rem;
     }
@@ -947,30 +976,31 @@ footer {
     nav ul {
         display: none;
     }
-    
+
     .hero {
         min-height: auto;
         padding: 2rem 5%;
     }
-    
+
     .hero h1 {
         font-size: 2.8rem;
     }
-    
+
     .hero h2 {
         font-size: 1.8rem;
     }
-    
+
     .section-title {
         font-size: 2.2rem;
     }
-    
+
     .stats {
         flex-direction: column;
         gap: 1.5rem;
     }
-    
-    .projects-grid, .blog-grid {
+
+    .projects-grid,
+    .blog-grid {
         grid-template-columns: 1fr;
     }
 
@@ -1006,12 +1036,15 @@ footer {
         transform: translateY(0) translateX(0);
         opacity: 0;
     }
+
     10% {
         opacity: 0.7;
     }
+
     90% {
         opacity: 0.7;
     }
+
     100% {
         transform: translateY(-100vh) translateX(100px);
         opacity: 0;
@@ -1049,7 +1082,7 @@ footer {
     .menu-toggle {
         display: flex;
     }
-    
+
     nav ul {
         position: fixed;
         top: var(--nav-height);
@@ -1062,7 +1095,7 @@ footer {
         padding-top: 2rem;
         transition: right 0.3s ease;
     }
-    
+
     nav ul.active {
         right: 0;
     }
