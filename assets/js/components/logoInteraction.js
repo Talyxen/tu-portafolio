@@ -23,14 +23,15 @@ export class LogoInteraction {
       this.isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
     }
 
-    const logoNodes = document.querySelectorAll('.logo');
+    const logoNodes = document.querySelectorAll('.logo, .profile-img');
     if (!logoNodes.length) return;
 
     this.abortController = new AbortController();
     const { signal } = this.abortController;
 
     logoNodes.forEach((el) => {
-      const wrapper = el.querySelector('.logo-img-wrapper');
+      const wrapper =
+        el.querySelector('.logo-img-wrapper') || el.querySelector('.profile-img-wrapper');
       const glow = el.querySelector('.logo-glow');
 
       // Si la estructura no está presente, omitir
