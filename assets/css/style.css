@@ -579,21 +579,19 @@ section {
 
 .project-card:hover .project-img img,
 .project-card:hover img {
-    transform: scale(1.06);
+    transform: scale(1.05);
 }
 
-/* Overlay Glassmorphism en Portada */
+/* Overlay en Portada (Sin desenfoque / Sin blur para máxima nitidez) */
 .project-overlay {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(15, 15, 35, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.35);
     opacity: 0;
-    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+    transition: opacity 0.4s ease, background 0.4s ease;
     text-decoration: none;
     z-index: 5;
 }
@@ -608,7 +606,8 @@ section {
     font-size: 0.95rem;
     box-shadow: 0 8px 32px rgba(0, 247, 255, 0.25);
     transform: translateY(15px) scale(0.95);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
@@ -622,6 +621,7 @@ section {
 .project-card:hover .overlay-btn,
 .project-overlay:focus-visible .overlay-btn {
     transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
 .overlay-btn:hover {
