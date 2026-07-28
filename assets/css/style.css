@@ -525,11 +525,14 @@ section {
     background: rgba(20, 20, 40, 0.6);
     border-radius: 20px;
     overflow: hidden;
-    transition: var(--transition);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
     border: 1px solid rgba(0, 247, 255, 0.1);
     backdrop-filter: blur(10px);
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .project-card::before {
@@ -541,14 +544,14 @@ section {
     height: 100%;
     background: radial-gradient(circle at center, rgba(0, 247, 255, 0.1) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.4s ease;
     z-index: -1;
 }
 
 .project-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     border-color: var(--primary);
-    box-shadow: 0 15px 30px rgba(0, 247, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 247, 255, 0.25);
 }
 
 .project-card:hover::before {
@@ -556,41 +559,89 @@ section {
 }
 
 .project-img {
-    height: 200px;
-    background: linear-gradient(45deg, #1a1a2e, #16213e);
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #101020;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0, 247, 255, 0.15);
+}
+
+.project-img img,
+.project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 55% center;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card:hover .project-img img,
+.project-card:hover img {
+    transform: scale(1.06);
+}
+
+/* Overlay Glassmorphism en Portada */
+.project-overlay {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
+    background: rgba(15, 15, 35, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+    text-decoration: none;
+    z-index: 5;
 }
 
-.project-img::before {
-    content: '';
-    position: absolute;
-    width: 150%;
-    height: 50px;
-    background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    animation: shine 3s infinite linear;
+.overlay-btn {
+    padding: 0.8rem 1.6rem;
+    border-radius: 30px;
+    background: rgba(0, 247, 255, 0.15);
+    border: 1px solid rgba(0, 247, 255, 0.4);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 32px rgba(0, 247, 255, 0.25);
+    transform: translateY(15px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
-@keyframes shine {
-    0% {
-        transform: translateX(-150%) rotate(25deg);
-    }
+.project-card:hover .project-overlay,
+.project-overlay:focus-visible {
+    opacity: 1;
+}
 
-    100% {
-        transform: translateX(150%) rotate(25deg);
-    }
+.project-card:hover .overlay-btn,
+.project-overlay:focus-visible .overlay-btn {
+    transform: translateY(0) scale(1);
+}
+
+.overlay-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #0a0a16;
+    box-shadow: 0 0 25px rgba(0, 247, 255, 0.6);
 }
 
 .project-content {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
 }
 
 .project-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
     color: var(--primary);
 }
 
@@ -598,13 +649,19 @@ section {
     color: rgba(240, 248, 255, 0.8);
     margin-bottom: 1.5rem;
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 4.8em;
 }
 
 .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: auto;
+    margin-bottom: 0;
 }
 
 .tag {
@@ -613,6 +670,30 @@ section {
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-card,
+    .project-img img,
+    .project-card img,
+    .project-overlay,
+    .overlay-btn {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .project-card:hover {
+        transform: none;
+    }
+
+    .project-card:hover .project-img img,
+    .project-card:hover img {
+        transform: none;
+    }
+
+    .overlay-btn {
+        transform: none;
+    }
 }
 
 /* Sección Currículum */
