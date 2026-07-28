@@ -30,6 +30,7 @@ export const CONFIG = {
 
   // Configuración de Navegación y Scroll
   NAVIGATION: {
+    SCROLL_THRESHOLD: 60,
     SCROLL_HIDE_THRESHOLD: 200,
   },
 

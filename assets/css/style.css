@@ -98,17 +98,29 @@ canvas {
 header {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    padding: 1rem 5%;
+    padding: 0 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    backdrop-filter: blur(10px);
-    background: rgba(10, 10, 24, 0.9);
-    border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+    background: transparent;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    border-bottom: 1px solid transparent;
+    box-shadow: none;
     height: var(--nav-height);
-    transition: all 0.3s ease;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease, border-bottom-color 0.4s ease, box-shadow 0.4s ease, height 0.4s ease;
+}
+
+header.scrolled {
+    background: rgba(10, 10, 24, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 247, 255, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 247, 255, 0.1);
+    height: calc(var(--nav-height) * 0.85);
 }
 
 .logo {

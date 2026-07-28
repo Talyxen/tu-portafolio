@@ -89,20 +89,25 @@ export class NavigationManager {
     if (!this.header) return;
 
     window.addEventListener('scroll', this.handleScroll, { signal, passive: true });
-    // Inicializar estado de enlace activo al cargar la página
-    this.updateActiveNavLink();
+    // Inicializar estado al cargar la página
+    this.onScroll();
   }
 
   onScroll() {
     if (!this.header) return;
 
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const threshold = CONFIG.NAVIGATION.SCROLL_THRESHOLD || 60;
 
-    if (scrollTop > this.lastScrollTop && scrollTop > CONFIG.NAVIGATION.SCROLL_HIDE_THRESHOLD) {
-      this.header.style.transform = 'translateY(-100%)';
+    // Efecto Glassmorphism y cambio de altura al hacer scroll (estilo Apple/Vercel/Stripe)
+    if (scrollTop > threshold) {
+      this.header.classList.add('scrolled');
     } else {
-      this.header.style.transform = 'translateY(0)';
+      this.header.classList.remove('scrolled');
     }
+
+    // Asegurar que el header siempre permanezca visible y en la parte superior
+    this.header.style.transform = 'translateY(0)';
 
     this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     this.updateActiveNavLink();
