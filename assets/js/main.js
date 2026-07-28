@@ -10,6 +10,7 @@ import { CustomCursorEffect } from './components/customCursor.js';
 import { initFloatingParticles, destroyFloatingParticles } from './components/floatingParticles.js';
 import { NavigationManager } from './components/navigation.js';
 import { ScrollRevealObserver } from './components/scrollReveal.js';
+import { LogoInteraction } from './components/logoInteraction.js';
 
 class PortfolioApp {
   constructor() {
@@ -18,6 +19,7 @@ class PortfolioApp {
       customCursor: null,
       navigation: null,
       scrollReveal: null,
+      logoInteraction: null,
     };
     this.particlesContainer = null;
     this.isInitialized = false;
@@ -30,7 +32,11 @@ class PortfolioApp {
     this.components.navigation = new NavigationManager();
     this.components.navigation.init();
 
-    // 2. Inicializar Revelado al Scroll
+    // 2. Inicializar Interacción 3D del Logo
+    this.components.logoInteraction = new LogoInteraction();
+    this.components.logoInteraction.init();
+
+    // 3. Inicializar Revelado al Scroll
     this.components.scrollReveal = new ScrollRevealObserver();
     this.components.scrollReveal.init();
 

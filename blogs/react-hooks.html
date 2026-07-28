@@ -13,6 +13,8 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Orbitron:wght@400;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg" />
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
     <style>
       /* Estilos específicos para artículos */
       .article-container {
@@ -110,7 +112,13 @@
 
     <!-- Header -->
     <header>
-      <a href="../index.html" class="logo">JS<span>VR</span></a>
+      <a href="../index.html" class="logo" aria-label="Inicio - JSVR Portafolio">
+        <div class="logo-img-wrapper">
+          <img src="../assets/img/logo.png" alt="Logo JSVR" class="logo-img" />
+          <div class="logo-glow"></div>
+        </div>
+        <span class="logo-text">JS<span>VR</span></span>
+      </a>
       <button class="menu-toggle" id="menuToggle">
         <span></span>
         <span></span>

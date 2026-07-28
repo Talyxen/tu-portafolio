@@ -38,3 +38,11 @@ export const CONFIG = {
     THRESHOLD: 0.1,
   },
 };
+
+export const LOGO_CONFIG = {
+  enabled: true,
+  maxTranslate: 10,
+  maxRotate: 12,
+  scale: 1.05,
+  lerp: 0.12,
+};
