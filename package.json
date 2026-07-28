@@ -1,0 +1,26 @@
+{
+  "name": "tu-portafolio",
+  "version": "1.0.0",
+  "description": "Portafolio web modular ES6 de Juan Sebastian Velasquez Rodriguez",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve .",
+    "lint": "eslint assets/js/**/*.js",
+    "lint:fix": "eslint assets/js/**/*.js --fix",
+    "format": "prettier --write \"assets/js/**/*.js\" \"*.html\" \"blogs/**/*.html\"",
+    "format:check": "prettier --check \"assets/js/**/*.js\" \"*.html\" \"blogs/**/*.html\""
+  },
+  "keywords": [
+    "portafolio",
+    "es6-modules",
+    "javascript",
+    "desarrollo-web"
+  ],
+  "author": "Juan Sebastian Velasquez Rodriguez <jsvr4303@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.2"
+  }
+}

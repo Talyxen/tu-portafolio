@@ -1,0 +1,1314 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juan Sebastian Velasquez Rodriguez | Desarrollador de Software</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Orbitron:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Variables globales */
+      :root {
+        --primary: #00f7ff;
+        --secondary: #ff00c8;
+        --accent: #00ff9d;
+        --dark: #0a0a18;
+        --darker: #050510;
+        --light: #f0f8ff;
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --gradient: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
+        --text-gradient: linear-gradient(90deg, var(--primary), var(--accent));
+        --section-padding: 8rem 10%;
+        --nav-height: 80px;
+      }
+
+      /* Reset y estilos base */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--nav-height);
+      }
+
+      body {
+        font-family: 'Montserrat', sans-serif;
+        background: var(--darker);
+        color: var(--light);
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+        line-height: 1.6;
+        padding-top: var(--nav-height);
+      }
+
+      /* Canvas para efectos de fondo */
+      .canvas-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Efecto de cursor personalizado */
+      .cursor-effect {
+        position: fixed;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+        box-shadow:
+          0 0 15px var(--primary),
+          0 0 30px rgba(0, 247, 255, 0.5);
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.3s,
+          height 0.3s,
+          opacity 0.3s;
+        mix-blend-mode: screen;
+      }
+
+      .cursor-effect.grow {
+        width: 60px;
+        height: 60px;
+        background: radial-gradient(circle, rgba(0, 247, 255, 0.5) 0%, transparent 70%);
+      }
+
+      .cursor-effect.pulse {
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(0, 247, 255, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 20px rgba(0, 247, 255, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 247, 255, 0);
+        }
+      }
+
+      /* Header y navegación */
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 1rem 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        background: rgba(10, 10, 24, 0.9);
+        border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        height: var(--nav-height);
+        transition: all 0.3s ease;
+      }
+
+      .logo {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary);
+        text-decoration: none;
+        letter-spacing: 1px;
+        text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+      }
+
+      .logo span {
+        color: var(--secondary);
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 1.5rem;
+      }
+
+      nav a {
+        color: var(--light);
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        transition: var(--transition);
+        position: relative;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      nav a:hover {
+        color: var(--primary);
+      }
+
+      nav a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: var(--transition);
+      }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+
+      /* Sección Hero */
+      .hero {
+        min-height: calc(100vh - var(--nav-height));
+        display: flex;
+        align-items: center;
+        padding: 0 10%;
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 10% 20%, rgba(10, 10, 30, 0.8) 0%, transparent 40%),
+          radial-gradient(circle at 90% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 40%);
+      }
+
+      .hero-content {
+        max-width: 650px;
+        z-index: 10;
+        padding-top: 2rem;
+      }
+
+      .hero h1 {
+        font-size: 4.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+        font-family: 'Orbitron', sans-serif;
+        background: var(--text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+      }
+
+      .hero h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+        color: rgba(240, 248, 255, 0.9);
+      }
+
+      .stats {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 1rem 1.5rem;
+        background: rgba(0, 247, 255, 0.05);
+        border-radius: 15px;
+        border: 1px solid rgba(0, 247, 255, 0.1);
+        backdrop-filter: blur(5px);
+        min-width: 140px;
+      }
+
+      .stat-number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--primary);
+        font-family: 'Orbitron', sans-serif;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 0.95rem;
+        color: rgba(240, 248, 255, 0.7);
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        background: var(--gradient);
+        color: var(--dark);
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: var(--transition);
+        font-size: 1.1rem;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 247, 255, 0.3);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient);
+        z-index: -1;
+        transition: opacity 0.3s;
+        opacity: 1;
+      }
+
+      .btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--dark);
+        z-index: -1;
+        transition: opacity 0.3s;
+        opacity: 0;
+      }
+
+      .btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 247, 255, 0.5);
+      }
+
+      .btn:hover::after {
+        opacity: 1;
+      }
+
+      .btn:hover::before {
+        opacity: 0;
+      }
+
+      /* Secciones */
+      section {
+        padding: var(--section-padding);
+        position: relative;
+      }
+
+      .section-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3rem;
+        margin-bottom: 5rem;
+        text-align: center;
+        position: relative;
+        background: var(--text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: var(--gradient);
+        border-radius: 2px;
+      }
+
+      /* Sección Sobre Mí */
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .about-text h3 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+      }
+
+      .about-text p {
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+      }
+
+      .technologies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .tech-item {
+        background: rgba(0, 247, 255, 0.1);
+        border: 1px solid rgba(0, 247, 255, 0.3);
+        padding: 0.8rem 1.5rem;
+        border-radius: 30px;
+        font-size: 1rem;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .tech-item:hover {
+        background: rgba(0, 247, 255, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 247, 255, 0.2);
+      }
+
+      .tech-icon {
+        color: var(--primary);
+        font-size: 1.2rem;
+      }
+
+      /* Imagen de perfil */
+      .profile-img {
+        width: 100%;
+        max-width: 400px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        border: 3px solid transparent;
+        box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
+        animation: border-pulse 3s infinite;
+      }
+
+      .profile-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+      }
+
+      @keyframes border-pulse {
+        0% {
+          box-shadow:
+            0 0 10px var(--primary),
+            0 0 20px rgba(0, 247, 255, 0.3);
+        }
+        50% {
+          box-shadow:
+            0 0 20px var(--accent),
+            0 0 40px rgba(0, 247, 255, 0.5);
+        }
+        100% {
+          box-shadow:
+            0 0 10px var(--primary),
+            0 0 20px rgba(0, 247, 255, 0.3);
+        }
+      }
+
+      .floating {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      /* Sección Proyectos */
+      #proyectos {
+        background: radial-gradient(circle at center, rgba(15, 15, 35, 0.8) 0%, transparent 70%);
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 3rem;
+      }
+
+      .project-card {
+        background: rgba(20, 20, 40, 0.6);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: var(--transition);
+        border: 1px solid rgba(0, 247, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+        z-index: 2;
+      }
+
+      .project-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(0, 247, 255, 0.1) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--primary);
+        box-shadow: 0 15px 30px rgba(0, 247, 255, 0.2);
+      }
+
+      .project-card:hover::before {
+        opacity: 1;
+      }
+
+      .project-img {
+        height: 200px;
+        background: linear-gradient(45deg, #1a1a2e, #16213e);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-img::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 50px;
+        background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        animation: shine 3s infinite linear;
+      }
+
+      @keyframes shine {
+        0% {
+          transform: translateX(-150%) rotate(25deg);
+        }
+        100% {
+          transform: translateX(150%) rotate(25deg);
+        }
+      }
+
+      .project-content {
+        padding: 1.5rem;
+      }
+
+      .project-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      .project-content p {
+        color: rgba(240, 248, 255, 0.8);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .project-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tag {
+        background: rgba(255, 0, 200, 0.1);
+        color: var(--secondary);
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.85rem;
+      }
+
+      /* Sección Currículum */
+      #curriculum {
+        background: radial-gradient(circle at center, rgba(15, 15, 35, 0.8) 0%, transparent 70%);
+      }
+
+      .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--gradient);
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .timeline-item {
+        position: relative;
+        width: 50%;
+        padding: 1.5rem 2.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .timeline-item:nth-child(odd) {
+        left: 0;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 50%;
+      }
+
+      .timeline-content {
+        background: rgba(20, 20, 40, 0.6);
+        border-radius: 15px;
+        padding: 1.5rem;
+        border: 1px solid rgba(0, 247, 255, 0.1);
+        backdrop-filter: blur(10px);
+        position: relative;
+      }
+
+      .timeline-content::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--primary);
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content::before {
+        right: -30px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content::before {
+        left: -30px;
+      }
+
+      .timeline-date {
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .timeline-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      /* Sección Blog Integrada */
+      #blog {
+        background: radial-gradient(circle at center, rgba(15, 15, 35, 0.8) 0%, transparent 70%);
+        padding: var(--section-padding);
+      }
+
+      .blog-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .blog-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3.5rem;
+        background: var(--text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+      }
+
+      .blog-subtitle {
+        font-size: 1.5rem;
+        color: var(--accent);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 3rem;
+      }
+
+      .blog-card {
+        background: rgba(20, 20, 40, 0.6);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: var(--transition);
+        border: 1px solid rgba(0, 247, 255, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      .blog-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 247, 255, 0.2);
+      }
+
+      .blog-img {
+        height: 200px;
+        background: linear-gradient(45deg, #1a1a2e, #16213e);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .blog-content {
+        padding: 1.5rem;
+      }
+
+      .blog-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      .blog-meta {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: rgba(240, 248, 255, 0.7);
+      }
+
+      .blog-content p {
+        color: rgba(240, 248, 255, 0.8);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      /* Footer */
+      footer {
+        padding: 4rem 10% 2rem;
+        background: rgba(5, 5, 15, 0.8);
+        border-top: 1px solid rgba(0, 247, 255, 0.1);
+        position: relative;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+      }
+
+      .footer-column h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+        font-family: 'Orbitron', sans-serif;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .footer-links i {
+        margin-right: 10px;
+        color: var(--accent);
+        min-width: 20px;
+      }
+
+      .footer-links a {
+        color: rgba(240, 248, 255, 0.7);
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary);
+        transform: translateX(5px);
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .social-icons a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        background: rgba(0, 247, 255, 0.1);
+        color: var(--primary);
+        border-radius: 50%;
+        font-size: 1.2rem;
+        transition: var(--transition);
+      }
+
+      .social-icons a:hover {
+        background: var(--primary);
+        color: var(--dark);
+        transform: translateY(-5px);
+        box-shadow: 0 0 15px var(--primary);
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 3rem;
+        color: rgba(240, 248, 255, 0.5);
+        font-size: 0.9rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .timeline::before {
+          left: 30px;
+        }
+
+        .timeline-item {
+          width: 100%;
+          padding-left: 70px;
+          padding-right: 25px;
+          left: 0 !important;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::before,
+        .timeline-item:nth-child(odd) .timeline-content::before {
+          left: 20px;
+        }
+      }
+
+      @media (max-width: 992px) {
+        .hero h1 {
+          font-size: 3.5rem;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+        }
+
+        .section-title {
+          font-size: 2.5rem;
+        }
+
+        .profile-img {
+          max-width: 300px;
+          margin-top: 3rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        nav ul {
+          display: none;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 2rem 5%;
+        }
+
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+
+        .hero h2 {
+          font-size: 1.8rem;
+        }
+
+        .section-title {
+          font-size: 2.2rem;
+        }
+
+        .stats {
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+
+        .projects-grid,
+        .blog-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Efecto de partículas */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: var(--primary);
+        border-radius: 50%;
+        animation: particle-float 10s infinite linear;
+        opacity: 0.5;
+      }
+
+      @keyframes particle-float {
+        0% {
+          transform: translateY(0) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.7;
+        }
+        90% {
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(-100vh) translateX(100px);
+          opacity: 0;
+        }
+      }
+
+      /* Menú móvil */
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 25px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1001;
+      }
+
+      .menu-toggle span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background-color: var(--primary);
+        border-radius: 10px;
+        transition: var(--transition);
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: flex;
+        }
+
+        nav ul {
+          position: fixed;
+          top: var(--nav-height);
+          right: -100%;
+          height: calc(100vh - var(--nav-height));
+          width: 250px;
+          background: rgba(10, 10, 24, 0.95);
+          flex-direction: column;
+          align-items: center;
+          padding-top: 2rem;
+          transition: right 0.3s ease;
+        }
+
+        nav ul.active {
+          right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Efecto de cursor personalizado -->
+    <div class="cursor-effect"></div>
+
+    <!-- Canvas para efectos de onda -->
+    <div class="canvas-container">
+      <canvas id="waveCanvas"></canvas>
+    </div>
+
+    <!-- Partículas de fondo -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+      <a href="#" class="logo">JS<span>VR</span></a>
+      <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#sobre-mi">Sobre Mí</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#curriculum">Currículum</a></li>
+          <li><a href="#blog">Blog</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Sección Hero -->
+    <section class="hero" id="inicio">
+      <div class="hero-content">
+        <h1>Juan Sebastian Velasquez Rodriguez</h1>
+        <h2>Desarrollador de Software</h2>
+        <p>
+          Estudiante de cuarto semestre en UNIMINUTO, apasionado por crear soluciones innovadoras
+          con código limpio y eficiente. Especializado en desarrollo web moderno y tecnologías
+          emergentes.
+        </p>
+
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-number">4°</div>
+            <div class="stat-label">Semestre</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Proyectos</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">8</div>
+            <div class="stat-label">Tecnologías</div>
+          </div>
+        </div>
+
+        <a href="#proyectos" class="btn">Ver mis Proyectos</a>
+      </div>
+    </section>
+
+    <!-- Sección Sobre Mí -->
+    <section id="sobre-mi">
+      <h2 class="section-title">Sobre Mí</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Desarrollador de Software en Formación</h3>
+          <p>
+            Soy un apasionado estudiante de desarrollo de software actualmente cursando mi cuarto
+            semestre en UNIMINUTO. Mi enfoque principal es crear aplicaciones web modernas y
+            eficientes que resuelvan problemas reales.
+          </p>
+          <p>
+            Me considero un eterno aprendiz, siempre buscando nuevas tecnologías y metodologías para
+            mejorar mis habilidades y ofrecer soluciones de calidad.
+          </p>
+
+          <h3 style="margin-top: 2rem">Tecnologías que Utilizo</h3>
+          <div class="technologies">
+            <div class="tech-item">
+              <i class="fab fa-html5 tech-icon"></i>
+              HTML5
+            </div>
+            <div class="tech-item">
+              <i class="fab fa-css3-alt tech-icon"></i>
+              CSS3
+            </div>
+            <div class="tech-item">
+              <i class="fab fa-js tech-icon"></i>
+              JavaScript
+            </div>
+            <div class="tech-item">
+              <i class="fab fa-react tech-icon"></i>
+              React
+            </div>
+            <div class="tech-item">
+              <i class="fab fa-node-js tech-icon"></i>
+              Node.js
+            </div>
+            <div class="tech-item">
+              <i class="fab fa-python tech-icon"></i>
+              Python
+            </div>
+            <div class="tech-item">
+              <i class="fab fa-git-alt tech-icon"></i>
+              Git
+            </div>
+            <div class="tech-item">
+              <i class="fas fa-database tech-icon"></i>
+              SQL
+            </div>
+          </div>
+        </div>
+        <div class="profile-img floating">
+          <img
+            src="https://i.pinimg.com/736x/ca/13/4e/ca134e454d7b7308673ba11c9e3e82de.jpg"
+            alt="Juan Sebastian Velasquez Rodriguez"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Proyectos -->
+    <section id="proyectos">
+      <h2 class="section-title">Mis Proyectos</h2>
+      <div class="projects-grid">
+        <!-- Proyecto 1 -->
+        <div class="project-card">
+          <div class="project-img">
+            <i class="fas fa-code" style="font-size: 4rem; color: var(--primary); z-index: 2"></i>
+          </div>
+          <div class="project-content">
+            <h3>Plataforma de E-learning</h3>
+            <p>
+              Una plataforma educativa con cursos interactivos, seguimiento de progreso y
+              certificación automática.
+            </p>
+            <div class="project-tags">
+              <span class="tag">React</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">MongoDB</span>
+            </div>
+            <a href="#" class="btn">Ver Detalles</a>
+          </div>
+        </div>
+
+        <!-- Proyecto 2 -->
+        <div class="project-card">
+          <div class="project-img">
+            <i
+              class="fas fa-mobile-alt"
+              style="font-size: 4rem; color: var(--primary); z-index: 2"
+            ></i>
+          </div>
+          <div class="project-content">
+            <h3>Aplicación de Gestión Financiera</h3>
+            <p>
+              Sistema para controlar gastos, ingresos y presupuestos con gráficos interactivos y
+              alertas personalizadas.
+            </p>
+            <div class="project-tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Firebase</span>
+              <span class="tag">Chart.js</span>
+            </div>
+            <a href="#" class="btn">Ver Detalles</a>
+          </div>
+        </div>
+
+        <!-- Proyecto 3 -->
+        <div class="project-card">
+          <div class="project-img">
+            <i class="fas fa-robot" style="font-size: 4rem; color: var(--primary); z-index: 2"></i>
+          </div>
+          <div class="project-content">
+            <h3>Asistente Virtual con IA</h3>
+            <p>
+              Asistente inteligente que responde preguntas, gestiona tareas y aprende de las
+              interacciones del usuario.
+            </p>
+            <div class="project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">TensorFlow</span>
+              <span class="tag">API</span>
+            </div>
+            <a href="#" class="btn">Ver Detalles</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Currículum -->
+    <section id="curriculum">
+      <h2 class="section-title">Mi Currículum</h2>
+      <div class="timeline">
+        <!-- Item 1 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">2025 - Presente</div>
+            <h3 class="timeline-title">UNIMINUTO</h3>
+            <p>
+              Estudiante de Desarrollo de Software, cursando actualmente cuarto semestre. Enfoque en
+              desarrollo web y tecnologías emergentes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">2023 - 2024</div>
+            <h3 class="timeline-title">Desarrollador Freelance</h3>
+            <p>
+              Desarrollo de aplicaciones web personalizadas para clientes. Especializado en
+              soluciones front-end con React y back-end con Node.js.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <div class="timeline-date">2022 - 2023</div>
+            <h3 class="timeline-title">Practicante en TechSolutions</h3>
+            <p>
+              Desarrollo y mantenimiento de aplicaciones web empresariales. Colaboración en
+              proyectos de migración a la nube.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Blog Integrada -->
+    <section id="blog">
+      <h2 class="section-title">Mi Blog</h2>
+      <div class="blog-header">
+        <p class="blog-subtitle">
+          Artículos sobre desarrollo, tecnologías emergentes y mejores prácticas
+        </p>
+      </div>
+
+      <div class="blog-grid">
+        <!-- Artículo 1 -->
+        <div class="blog-card">
+          <div class="blog-img">
+            <i class="fas fa-code" style="font-size: 4rem; color: var(--primary); z-index: 2"></i>
+          </div>
+          <div class="blog-content">
+            <h3>Introducción a React Hooks</h3>
+            <div class="blog-meta">
+              <span><i class="far fa-calendar"></i> 20 Ene, 2023</span>
+              <span><i class="far fa-clock"></i> 8 min</span>
+            </div>
+            <p>
+              Descubre cómo los React Hooks han revolucionado el desarrollo de componentes
+              funcionales en React, permitiendo un código más limpio y reutilizable.
+            </p>
+            <a href="blogs/react-hooks.html" class="btn">Leer Artículo</a>
+          </div>
+        </div>
+
+        <!-- Artículo 2 -->
+        <div class="blog-card">
+          <div class="blog-img">
+            <i class="fas fa-server" style="font-size: 4rem; color: var(--primary); z-index: 2"></i>
+          </div>
+          <div class="blog-content">
+            <h3>Despliegue en la Nube</h3>
+            <div class="blog-meta">
+              <span><i class="far fa-calendar"></i> 15 Oct, 2023</span>
+              <span><i class="far fa-clock"></i> 12 min</span>
+            </div>
+            <p>
+              Guía completa para desplegar aplicaciones web en AWS, Azure y Google Cloud Platform.
+              Comparativa de servicios y mejores prácticas.
+            </p>
+            <a href="blogs/despliegue-nube.html" class="btn">Leer Artículo</a>
+          </div>
+        </div>
+
+        <!-- Artículo 3 -->
+        <div class="blog-card">
+          <div class="blog-img">
+            <i class="fas fa-brain" style="font-size: 4rem; color: var(--primary); z-index: 2"></i>
+          </div>
+          <div class="blog-content">
+            <h3>IA para Desarrolladores</h3>
+            <div class="blog-meta">
+              <span><i class="far fa-calendar"></i> 20 Dic, 2024</span>
+              <span><i class="far fa-clock"></i> 10 min</span>
+            </div>
+            <p>
+              Cómo integrar inteligencia artificial en tus aplicaciones usando TensorFlow.js.
+              Ejemplos prácticos y casos de uso reales.
+            </p>
+            <a href="blogs/ia-desarrolladores.html" class="btn">Leer Artículo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>Juan Sebastian Velasquez Rodriguez</h3>
+          <p>
+            Desarrollador de Software en formación, creando soluciones innovadoras para el mundo
+            digital.
+          </p>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/talyxen_" target="_blank"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>Enlaces</h3>
+          <ul class="footer-links">
+            <li>
+              <a href="#inicio"><i class="fas fa-home"></i> Inicio</a>
+            </li>
+            <li>
+              <a href="#sobre-mi"><i class="fas fa-user"></i> Sobre Mí</a>
+            </li>
+            <li>
+              <a href="#proyectos"><i class="fas fa-code"></i> Proyectos</a>
+            </li>
+            <li>
+              <a href="#curriculum"><i class="fas fa-file-alt"></i> Currículum</a>
+            </li>
+            <li>
+              <a href="#blog"><i class="fas fa-blog"></i> Blog</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contacto</h3>
+          <ul class="footer-links">
+            <li><i class="fas fa-envelope"></i> jsvr4303@gmail.com</li>
+            <li><i class="fas fa-phone"></i> +57 320 849 1961</li>
+            <li><i class="fas fa-map-marker-alt"></i> Villavicencio, Meta, Colombia</li>
+            <li><i class="fas fa-graduation-cap"></i> UNIMINUTO</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; 2025 Juan Sebastian Velasquez Rodriguez. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="assets/js/main.js"></script>
+  </body>
+</html>

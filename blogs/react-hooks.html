@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introducción a React Hooks | Juan Sebastian Velasquez Rodriguez</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Orbitron:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Estilos específicos para artículos */
+      .article-container {
+        max-width: 800px;
+        margin: 5rem auto;
+        padding: 0 2rem;
+      }
+
+      .article-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .article-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2.5rem;
+        background: linear-gradient(90deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+      }
+
+      .article-meta {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--accent);
+      }
+
+      .article-image {
+        width: 100%;
+        height: 400px;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 2rem 0;
+        position: relative;
+      }
+
+      .article-content {
+        line-height: 1.8;
+        font-size: 1.1rem;
+      }
+
+      .article-content h2 {
+        color: var(--primary);
+        margin: 2rem 0 1rem;
+        font-size: 1.8rem;
+      }
+
+      .article-content p {
+        margin-bottom: 1.5rem;
+      }
+
+      .article-content pre {
+        background: rgba(20, 20, 40, 0.6);
+        border-radius: 10px;
+        padding: 1.5rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        border: 1px solid rgba(0, 247, 255, 0.1);
+      }
+
+      .article-content code {
+        font-family: 'Courier New', monospace;
+        color: var(--accent);
+      }
+
+      .back-to-blog {
+        display: inline-block;
+        margin-top: 2rem;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+      }
+
+      .back-to-blog:hover {
+        transform: translateX(-5px);
+      }
+
+      .back-to-blog i {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Efecto de cursor personalizado -->
+    <div class="cursor-effect"></div>
+
+    <!-- Canvas para efectos de onda -->
+    <div class="canvas-container">
+      <canvas id="waveCanvas"></canvas>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <a href="../index.html" class="logo">JS<span>VR</span></a>
+      <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="../index.html#inicio">Inicio</a></li>
+          <li><a href="../index.html#sobre-mi">Sobre Mí</a></li>
+          <li><a href="../index.html#proyectos">Proyectos</a></li>
+          <li><a href="../index.html#curriculum">Currículum</a></li>
+          <li><a href="../index.html#blog">Blog</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Contenido del artículo -->
+    <div class="article-container">
+      <div class="article-header">
+        <h1 class="article-title">Introducción a React Hooks</h1>
+        <div class="article-meta">
+          <span><i class="fas fa-calendar"></i> 20 de Enero, 2023</span>
+          <span><i class="fas fa-clock"></i> 8 min de lectura</span>
+        </div>
+      </div>
+
+      <div class="article-image">
+        <img
+          src="https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400&q=80"
+          alt="Código React con Hooks"
+          style="width: 100%; height: 100%; object-fit: cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <div class="article-content">
+        <p>
+          Hola, soy Juan Sebastián Velásquez, desarrollador frontend especializado en React. Hoy
+          quiero compartir contigo una de las características que más ha transformado mi forma de
+          trabajar con React: los Hooks. Como desarrollador que ha trabajado tanto con componentes
+          de clase como funcionales, te puedo decir que los Hooks son un cambio de paradigma que
+          vale la pena dominar.
+        </p>
+
+        <h2>¿Qué son los React Hooks?</h2>
+        <p>
+          Cuando empecé con React allá por 2019, la mayoría de componentes con estado requerían
+          clases. Pero desde la versión 16.8, los Hooks nos permiten usar estado y otras
+          características de React sin escribir una clase. En esencia, los Hooks son funciones
+          especiales que te permiten "enganchar" funcionalidades de React en componentes
+          funcionales.
+        </p>
+
+        <h2>¿Por qué los prefiero?</h2>
+        <p>
+          En mis proyectos personales y profesionales, he encontrado que los Hooks ofrecen varias
+          ventajas:
+        </p>
+        <ul>
+          <li>
+            <strong>Menos código repetitivo:</strong> No necesitas el boilerplate de las clases
+          </li>
+          <li>
+            <strong>Lógica más organizada:</strong> Puedes separar preocupaciones por funcionalidad
+            en lugar de por métodos del ciclo de vida
+          </li>
+          <li>
+            <strong>Reutilización de lógica:</strong> Con Custom Hooks puedes encapsular y compartir
+            lógica entre componentes
+          </li>
+          <li><strong>Mejor legibilidad:</strong> El flujo es más lineal y fácil de seguir</li>
+        </ul>
+
+        <h2>Los Hooks esenciales que uso a diario</h2>
+
+        <h3>useState - Mi hook fundamental</h3>
+        <p>
+          Este es el hook que más utilizo para manejar el estado local en mis componentes. Aquí un
+          ejemplo de cómo lo implemento:
+        </p>
+        <pre><code>import React, { useState } from 'react';
+
+function Contador() {
+  const [contador, setContador] = useState(0); // Valor inicial
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Has hecho clic {contador} veces&lt;/p&gt;
+      &lt;button onClick={() => setContador(contador + 1)}&gt;
+        Incrementar
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+        <h3>useEffect - Para efectos secundarios</h3>
+        <p>
+          Lo uso constantemente para operaciones asíncronas, suscripciones o manipulación del DOM.
+          Este es un patrón que aplico frecuentemente:
+        </p>
+        <pre><code>import React, { useState, useEffect } from 'react';
+
+function DatosUsuario({ userId }) {
+  const [usuario, setUsuario] = useState(null);
+  
+  useEffect(() => {
+    // Este efecto se ejecuta al montar y cuando userId cambia
+    const fetchData = async () => {
+      const response = await fetch(`/api/usuarios/${userId}`);
+      setUsuario(await response.json());
+    };
+    
+    fetchData();
+    
+    // Función de limpieza
+    return () => {
+      // Cancelar solicitudes pendientes si es necesario
+    };
+  }, [userId]); // Dependencia
+
+  return (
+    &lt;div&gt;
+      {usuario ? (
+        &lt;h2&gt;{usuario.nombre}&lt;/h2&gt;
+      ) : (
+        &lt;p&gt;Cargando...&lt;/p&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+        <h3>useRef - Referencias persistentes</h3>
+        <p>
+          Particularmente útil cuando necesito acceder directamente a elementos del DOM o mantener
+          valores entre renderizados:
+        </p>
+        <pre><code>function AutoFocusInput() {
+  const inputRef = useRef(null);
+  
+  useEffect(() => {
+    // Enfoque automático al montar
+    inputRef.current.focus();
+  }, []);
+  
+  return &lt;input ref={inputRef} type="text" /&gt;;
+}</code></pre>
+
+        <h2>Consejos desde mi experiencia</h2>
+        <p>Después de trabajar con Hooks en múltiples proyectos, estos son mis tips personales:</p>
+        <ol>
+          <li>
+            <strong>Crea tus propios Hooks:</strong> Si repites lógica en varios componentes,
+            abstracta en un custom hook
+          </li>
+          <li>
+            <strong>Usa el linter de React Hooks:</strong> Te ayuda a seguir las reglas básicas de
+            los hooks
+          </li>
+          <li>
+            <strong>Divide efectos complejos:</strong> Mejor múltiples useEffect pequeños que uno
+            gigante
+          </li>
+          <li>
+            <strong>Optimiza con useCallback y useMemo:</strong> Pero solo cuando realmente notes
+            problemas de rendimiento
+          </li>
+        </ol>
+
+        <h2>Mi conclusión</h2>
+        <p>
+          Los React Hooks han cambiado completamente mi forma de construir interfaces. Aunque al
+          principio tuve que ajustar mi mentalidad, hoy no puedo imaginar trabajar sin ellos. La
+          combinación de simplicidad y poder que ofrecen me permite crear componentes más limpios,
+          mantenibles y reutilizables.
+        </p>
+        <p>
+          Si quieres profundizar más en este tema o tienes preguntas específicas sobre
+          implementación, no dudes en contactarme a través de mi sitio web. ¡En próximos artículos
+          exploraremos hooks avanzados y custom hooks!
+        </p>
+
+        <a href="../index.html#blog" class="back-to-blog"
+          ><i class="fas fa-arrow-left"></i> Volver al blog</a
+        >
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2025 Juan Sebastián Velásquez. Todos los derechos reservados.</p>
+        <div class="social-icons">
+          <a href="https://github.com/tuusuario" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/in/tuperfil" target="_blank"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+          <a href="mailto:tuemail@ejemplo.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="../assets/js/main.js"></script>
+  </body>
+</html>

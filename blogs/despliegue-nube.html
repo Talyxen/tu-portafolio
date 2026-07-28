@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Despliegue en la Nube | Juan Sebastian Velasquez Rodriguez</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Orbitron:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Estilos específicos para artículos (igual que en el anterior) */
+    </style>
+  </head>
+  <body>
+    <!-- Efecto de cursor personalizado -->
+    <div class="cursor-effect"></div>
+
+    <!-- Canvas para efectos de onda -->
+    <div class="canvas-container">
+      <canvas id="waveCanvas"></canvas>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <a href="../index.html" class="logo">JS<span>VR</span></a>
+      <button class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="../index.html#inicio">Inicio</a></li>
+          <li><a href="../index.html#sobre-mi">Sobre Mí</a></li>
+          <li><a href="../index.html#proyectos">Proyectos</a></li>
+          <li><a href="../index.html#curriculum">Currículum</a></li>
+          <li><a href="../index.html#blog">Blog</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Contenido del artículo -->
+    <div class="article-container">
+      <div class="article-header">
+        <h1 class="article-title">Mi Viaje con el Despliegue en la Nube: De Novato a DevOps</h1>
+        <div class="article-meta">
+          <span><i class="fas fa-calendar"></i> 15 de Octubre, 2023</span>
+          <span><i class="fas fa-clock"></i> 12 min de lectura</span>
+        </div>
+      </div>
+
+      <div class="article-image">
+        <img
+          src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400&q=80"
+          alt="Servidores en la nube"
+          style="width: 100%; height: 100%; object-fit: cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <div class="article-content">
+        <p>
+          Recuerdo mi primer despliegue en producción como si fuera ayer: un simple sitio HTML
+          subido por FTP a un hosting compartido. Hoy, después de implementar más de 50 proyectos en
+          la nube, quiero compartir contigo las lecciones que he aprendido en este viaje de
+          transformación hacia las prácticas DevOps.
+        </p>
+
+        <h2>Mi Evolución en el Despliegue</h2>
+        <ol>
+          <li><strong>Etapa FTP (2020):</strong> Subir archivos manualmente con FileZilla</li>
+          <li><strong>Hosting Compartido (2021):</strong> cPanel y problemas de compatibilidad</li>
+          <li><strong>VPS (2022):</strong> Mis primeros comandos SSH y configuración manual</li>
+          <li><strong>Plataformas como Servicio (2023):</strong> Descubriendo Heroku y Vercel</li>
+          <li><strong>Infraestructura como Código (2024):</strong> Terraform + AWS</li>
+          <li><strong>CI/CD Automatizado (2025):</strong> Git push para despliegue automático</li>
+        </ol>
+
+        <h2>Mi Stack Actual de Despliegue</h2>
+        <p>Después de probar múltiples soluciones, este es mi setup actual para proyectos:</p>
+
+        <div class="cloud-setup">
+          <div class="cloud-service">
+            <h3>Aplicaciones Estáticas (React, Vue)</h3>
+            <ul>
+              <li><strong>Plataforma:</strong> Vercel</li>
+              <li><strong>Ventajas:</strong> Integración con GitHub, previews para PRs</li>
+              <li><strong>Costo:</strong> Gratis para proyectos personales</li>
+            </ul>
+            <pre><code># Ejemplo de vercel.json
+{
+  "builds": [{ "src": "package.json", "use": "@vercel/static-build" }],
+  "routes": [{ "src": "/(.*)", "dest": "/index.html" }]
+}</code></pre>
+          </div>
+
+          <div class="cloud-service">
+            <h3>Aplicaciones Fullstack (Node.js + React)</h3>
+            <ul>
+              <li><strong>Plataforma:</strong> AWS Elastic Beanstalk</li>
+              <li><strong>Ventajas:</strong> Escalado automático, balanceo de carga</li>
+              <li><strong>Configuración:</strong> Docker containers</li>
+            </ul>
+            <pre><code># Dockerrun.aws.json
+{
+  "AWSEBDockerrunVersion": "2",
+  "containerDefinitions": [
+    {
+      "name": "frontend",
+      "image": "my-react-app:latest",
+      "memory": 512
+    },
+    {
+      "name": "backend",
+      "image": "my-node-api:latest",
+      "memory": 1024
+    }
+  ]
+}</code></pre>
+          </div>
+        </div>
+
+        <h2>Lecciones Aprendidas (Por las Malas)</h2>
+        <p>Mi experiencia con la nube incluye algunos errores que espero puedas evitar:</p>
+
+        <div class="lesson-card">
+          <h3>💸 La Factura de $500 por un Bucket Público</h3>
+          <p>
+            En 2023 configuré mal un bucket S3 que permitía tráfico ilimitado. En una semana tuve
+            una factura enorme por transferencia de datos. <strong>Solución:</strong> Ahora siempre
+            uso CloudFront delante de S3 con límites de gasto.
+          </p>
+        </div>
+
+        <div class="lesson-card">
+          <h3>🌐 Downtime Durante un Lanzamiento</h3>
+          <p>
+            Al actualizar mi portafolio sin estrategia de despliegue, causé 15 minutos de
+            inactividad. <strong>Solución:</strong> Implementé blue-green deployments con AWS.
+          </p>
+        </div>
+
+        <div class="lesson-card">
+          <h3>🔒 Exposición de Credenciales</h3>
+          <p>
+            Subí accidentalmente un archivo .env a GitHub. <strong>Solución:</strong> Ahora uso
+            secretos gestionados y git-secrets para prevenir commits peligrosos.
+          </p>
+        </div>
+
+        <h2>Mi Flujo CI/CD Actual</h2>
+        <p>Para mis proyectos serios, he estandarizado este proceso:</p>
+        <ol>
+          <li><strong>Desarrollo:</strong> Feature branches en GitHub</li>
+          <li><strong>Pruebas:</strong> GitHub Actions ejecuta tests</li>
+          <li><strong>Revisión:</strong> Preview en Vercel para cada PR</li>
+          <li><strong>Despliegue en Staging:</strong> Merge a develop branch</li>
+          <li><strong>Pruebas Finales:</strong> Smoke tests automatizados</li>
+          <li><strong>Producción:</strong> Deploy con canary releases</li>
+        </ol>
+
+        <pre><code># Parte de mi workflow de GitHub Actions
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Deploy to AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          
+      - name: Deploy with CloudFormation
+        run: aws cloudformation deploy --template-file template.yml --stack-name my-app</code></pre>
+
+        <h2>Consejos para Empezar</h2>
+        <p>
+          Si estás comenzando con despliegue en la nube, esto es lo que me hubiera gustado saber:
+        </p>
+        <ul>
+          <li>
+            <strong>Empieza con servicios gestionados:</strong> Vercel/Netlify para frontend, Heroku
+            para backend
+          </li>
+          <li><strong>Automatiza desde el principio:</strong> Aunque sea con scripts básicos</li>
+          <li><strong>Monitorea todo:</strong> Configura alertas tempranas</li>
+          <li>
+            <strong>Documenta tus despliegues:</strong> Especialmente configuraciones especiales
+          </li>
+          <li><strong>Prueba la recuperación:</strong> Simula fallas regularmente</li>
+        </ul>
+
+        <p>
+          El despliegue en la nube ya no es un lujo sino una necesidad. Dominar estas herramientas
+          me ha permitido entregar proyectos más robustos, escalables y profesionales. ¿Tienes
+          preguntas específicas sobre tu flujo de despliegue? ¡Contáctame y con gusto te ayudo!
+        </p>
+
+        <a href="../index.html#blog" class="back-to-blog"
+          ><i class="fas fa-arrow-left"></i> Volver al blog</a
+        >
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2025 Juan Sebastian Velasquez Rodriguez. Todos los derechos reservados.</p>
+        <div class="social-icons">
+          <a href="https://github.com/tuusuario" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/in/tuperfil" target="_blank"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+          <a href="mailto:tuemail@ejemplo.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="../assets/js/main.js"></script>
+  </body>
+</html>
