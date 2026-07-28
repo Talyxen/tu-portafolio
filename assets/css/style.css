@@ -253,6 +253,8 @@ nav a.active::after {
     min-height: calc(100vh - var(--nav-height));
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
     padding: 0 10%;
     position: relative;
     overflow: hidden;
@@ -1070,8 +1072,18 @@ footer {
 }
 
 @media (max-width: 992px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 4rem;
+    }
+
     .hero h1 {
         font-size: 3.5rem;
+    }
+
+    .stats {
+        justify-content: center;
     }
 
     .about-content {
