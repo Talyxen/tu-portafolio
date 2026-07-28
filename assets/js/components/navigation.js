@@ -119,47 +119,71 @@ export class NavigationManager {
     const navLinks = DOMCache.getAll('#navMenu a[href^="#"]');
     if (!navLinks.length) return;
 
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || window.scrollY;
     const headerHeight = this.header ? this.header.offsetHeight : 80;
     const scrollBottom = scrollTop + window.innerHeight;
-    const docHeight = document.documentElement.scrollHeight;
 
-    // Si el usuario llega al final de la página, activar el último elemento de navegación visible (ej. #contacto)
-    if (scrollBottom >= docHeight - 50) {
-      navLinks.forEach((link) => link.classList.remove('active'));
-      const lastLink = navLinks[navLinks.length - 1];
-      if (lastLink) lastLink.classList.add('active');
+    const maxDocHeight = Math.max(
+      document.body.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.clientHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.offsetHeight
+    );
+
+    // 1. Condición de final absoluto de página (prioridad máxima para Contáctanos)
+    const atBottom = Math.ceil(scrollBottom) >= maxDocHeight - 20;
+    if (atBottom) {
+      this.setActiveNavLink(navLinks, '#contacto');
       return;
     }
 
-    let currentSectionId = '';
-    const scrollPosition = scrollTop + headerHeight + 150;
+    // 2. Evaluar qué sección ocupa la mayor parte del viewport visible
+    let bestSectionId = '';
+    let maxVisibleHeight = -1;
 
     navLinks.forEach((link) => {
       const targetId = link.getAttribute('href');
-      if (targetId && targetId !== '#') {
-        const section = DOMCache.get(targetId);
-        if (section) {
-          const sectionTop =
-            section.getBoundingClientRect().top +
-            (window.pageYOffset || document.documentElement.scrollTop);
-          const sectionHeight = section.offsetHeight;
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            currentSectionId = targetId;
-          }
+      if (!targetId || targetId === '#') return;
+
+      const section = DOMCache.get(targetId);
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+
+      // Al entrar en la sección Contáctanos, el estado activo debe cambiar inmediatamente
+      if (targetId === '#contacto') {
+        if (rect.top <= window.innerHeight * 0.75) {
+          bestSectionId = '#contacto';
+          maxVisibleHeight = Number.MAX_SAFE_INTEGER;
         }
+        return;
+      }
+
+      // Calcular la altura visible de la sección dentro del viewport [headerHeight, window.innerHeight]
+      const visibleTop = Math.max(headerHeight, rect.top);
+      const visibleBottom = Math.min(window.innerHeight, rect.bottom);
+      const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+
+      if (visibleHeight > maxVisibleHeight) {
+        maxVisibleHeight = visibleHeight;
+        bestSectionId = targetId;
       }
     });
 
-    if (currentSectionId) {
-      navLinks.forEach((link) => {
-        if (link.getAttribute('href') === currentSectionId) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
+    if (bestSectionId) {
+      this.setActiveNavLink(navLinks, bestSectionId);
     }
+  }
+
+  setActiveNavLink(navLinks, targetId) {
+    navLinks.forEach((link) => {
+      if (link.getAttribute('href') === targetId) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
   }
 
   destroy() {
