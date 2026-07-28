@@ -276,11 +276,23 @@ nav a.active::after {
 }
 
 .hero-image img {
-    max-width: 500px;
+    max-width: 380px;
     width: 100%;
     height: auto;
     object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(0, 247, 255, 0.2));
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.hero-image img:hover {
+    transform: translateY(-10px) scale(1.05) rotate(2deg);
+    filter: drop-shadow(0 15px 30px rgba(0, 247, 255, 0.5)) brightness(1.1);
+}
+
+.hero-image img:active {
+    transform: translateY(2px) scale(0.96) rotate(-1deg);
+    filter: drop-shadow(0 5px 15px rgba(0, 247, 255, 0.3)) brightness(0.9);
 }
 
 .hero h1 {
