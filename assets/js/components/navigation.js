@@ -67,8 +67,12 @@ export class NavigationManager {
           if (!targetElement) return;
 
           const headerHeight = this.header ? this.header.offsetHeight : 0;
+          const elementTop =
+            targetElement.getBoundingClientRect().top +
+            (window.pageYOffset || document.documentElement.scrollTop);
+
           window.scrollTo({
-            top: targetElement.offsetTop - headerHeight,
+            top: elementTop - headerHeight,
             behavior: 'smooth',
           });
 
@@ -85,6 +89,8 @@ export class NavigationManager {
     if (!this.header) return;
 
     window.addEventListener('scroll', this.handleScroll, { signal, passive: true });
+    // Inicializar estado de enlace activo al cargar la página
+    this.updateActiveNavLink();
   }
 
   onScroll() {
@@ -99,6 +105,56 @@ export class NavigationManager {
     }
 
     this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    this.updateActiveNavLink();
+  }
+
+  updateActiveNavLink() {
+    if (!this.navMenu) return;
+
+    const navLinks = DOMCache.getAll('#navMenu a[href^="#"]');
+    if (!navLinks.length) return;
+
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const headerHeight = this.header ? this.header.offsetHeight : 80;
+    const scrollBottom = scrollTop + window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+
+    // Si el usuario llega al final de la página, activar el último elemento de navegación visible (ej. #contacto)
+    if (scrollBottom >= docHeight - 50) {
+      navLinks.forEach((link) => link.classList.remove('active'));
+      const lastLink = navLinks[navLinks.length - 1];
+      if (lastLink) lastLink.classList.add('active');
+      return;
+    }
+
+    let currentSectionId = '';
+    const scrollPosition = scrollTop + headerHeight + 150;
+
+    navLinks.forEach((link) => {
+      const targetId = link.getAttribute('href');
+      if (targetId && targetId !== '#') {
+        const section = DOMCache.get(targetId);
+        if (section) {
+          const sectionTop =
+            section.getBoundingClientRect().top +
+            (window.pageYOffset || document.documentElement.scrollTop);
+          const sectionHeight = section.offsetHeight;
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSectionId = targetId;
+          }
+        }
+      }
+    });
+
+    if (currentSectionId) {
+      navLinks.forEach((link) => {
+        if (link.getAttribute('href') === currentSectionId) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
   }
 
   destroy() {
