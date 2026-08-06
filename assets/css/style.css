@@ -706,13 +706,35 @@ section {
 
 .project-content p {
     color: rgba(240, 248, 255, 0.8);
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     height: 4.8em;
+    transition: all 0.3s ease;
+}
+
+.project-content p.expanded {
+    -webkit-line-clamp: unset;
+    height: auto;
+}
+
+.read-more-btn {
+    background: none;
+    border: none;
+    color: var(--secondary, #00f7ff);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    text-decoration: underline;
+    font-family: inherit;
+}
+.read-more-btn:hover {
+    color: var(--primary, #e200ff);
 }
 
 .project-tags {

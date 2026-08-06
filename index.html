@@ -193,6 +193,7 @@
               Sitio web profesional para una agencia de viajes, diseñado para mostrar destinos,
               paquetes turísticos y facilitar el contacto con los clientes.
             </p>
+            <button class="read-more-btn" onclick="toggleDescription(this)">Leer más</button>
             <div class="project-tags">
               <span class="tag">HTML5</span>
               <span class="tag">CSS3</span>
@@ -226,6 +227,7 @@
               Sistema para controlar gastos, ingresos y presupuestos con gráficos interactivos y
               alertas personalizadas.
             </p>
+            <button class="read-more-btn" onclick="toggleDescription(this)">Leer más</button>
             <div class="project-tags">
               <span class="tag">JavaScript</span>
               <span class="tag">Firebase</span>
@@ -238,7 +240,7 @@
         <div class="project-card">
           <div class="project-img">
             <img
-              src="assets/img/projects/poker%20uniminuto.png"
+              src="assets/img/projects/poker-uniminuto.png"
               alt="Poker Uniminuto"
               loading="lazy"
               decoding="async"
@@ -254,6 +256,7 @@
             <p>
               Poker Uniminuto es una aplicación web full stack desarrollada para la administración y análisis de partidas de póker. El sistema incluye autenticación segura, control de acceso basado en roles (RBAC), gestión de jugadores, registro y consulta de partidas, estadísticas en tiempo real (profit histórico, win rate, historial y estado financiero), auditoría de acciones y un modo visitante con permisos de solo lectura. Su objetivo es centralizar la información de las partidas, facilitar el seguimiento del rendimiento de los jugadores y demostrar la implementación de buenas prácticas de desarrollo y seguridad en un entorno real.
             </p>
+            <button class="read-more-btn" onclick="toggleDescription(this)">Leer más</button>
             <div class="project-tags">
               <span class="tag">TypeScript</span>
               <span class="tag">Supabase</span>
@@ -431,8 +434,16 @@
       <div class="copyright">
         <p>&copy; 2025 Juan Sebastian Velasquez Rodriguez. Todos los derechos reservados.</p>
       </div>
-    </footer>
-
+    <!-- Script Global -->
+    <script>
+      function toggleDescription(btn) {
+        const p = btn.previousElementSibling;
+        if (p) {
+          p.classList.toggle('expanded');
+          btn.textContent = p.classList.contains('expanded') ? 'Leer menos' : 'Leer más';
+        }
+      }
+    </script>
     <script type="module" src="assets/js/main.js"></script>
   </body>
 </html>
